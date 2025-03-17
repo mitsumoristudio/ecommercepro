@@ -2,7 +2,7 @@
 import {PRODUCTS_URL} from "../../urlconstants";
 import {apiSlice} from "./apiSlice";
 
-
+// For Asynchronous request
 // injectEndpoints- will make a request to our backend API to get all of the products. keepUnsusedDataFor keeps the data in cache for 5 secs
 export const productsApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({

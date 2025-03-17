@@ -2,6 +2,7 @@ import {Link, useParams} from "react-router-dom";
 import Ratings from "../components/Ratings";
 import {Row, Col, Image, ListGroup, Card, Button, ListGroupItem} from "react-bootstrap";
 import {useGetProductDetailsByIdQuery} from "../features/reduxslices/productsApiSlice";
+import Loader from "../components/Loader";
 
 // TODO Before adding Redux reducers
 //import {useParams} from "react-router-dom";
@@ -32,7 +33,7 @@ export default function ProductScreen() {
         <Link to={'/'} className={'btn btn-light my-3'}>
             Go Back
         </Link>
-            {isLoading ? (<h2>Loading...</h2>) : error ? (
+            {isLoading ? (<Loader/>) : error ? (
                 <div>{error?.data?.message || error.error }</div>
             ) : (<Row>
                 <Col md={5}>
