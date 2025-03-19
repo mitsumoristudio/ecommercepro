@@ -3,10 +3,13 @@ import Ratings from "../components/Ratings";
 import {Row, Col, Image, ListGroup, Card, Button, ListGroupItem, FormControl} from "react-bootstrap";
 import {useGetProductDetailsByIdQuery} from "../features/reduxslices/productsApiSlice";
 import Loader from "../components/Loader";
+import Message from "../components/Message";
+
 import {useState} from "react";
 import {addToCart} from "../features/reduxslices/cartSlice";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
+
 
 // TODO Before adding Redux reducers
 //import {useParams} from "react-router-dom";
@@ -49,7 +52,7 @@ export default function ProductScreen() {
             Go Back
         </Link>
             {isLoading ? (<Loader/>) : error ? (
-                <div>{error?.data?.message || error.error }</div>
+                <Message variant={'danger'}>{error?.data?.message || error.error }</Message>
             ) : (<Row>
                 <Col md={5}>
                     <Image src={product.image} alt={product.name} fluid={true} />

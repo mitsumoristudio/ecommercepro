@@ -10,7 +10,7 @@ import HomeScreen from "./screens/HomeScreen";
 // import {Outlet} from "react-router-dom";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import ProductScreen from "./screens/ProductScreen";
-
+import CartScreen from "./screens/CartScreen";
 
 export default function App() {
   return (
@@ -20,6 +20,7 @@ export default function App() {
               <Routes >
                   <Route path="/" element={<HomeScreen />} />
                   <Route path={"/product/:id"} element={<ProductScreen />} />
+                  <Route path={"/cart"} element={<CartScreen />} />
               </Routes>
 
           <Footer />

@@ -8,6 +8,7 @@ import {Row, Col} from 'react-bootstrap';
 import Product from '../components/Product';
 import {useGetProductsQuery} from "../features/reduxslices/productsApiSlice";
 import Loader from "../components/Loader";
+import Message from "../components/Message";
 
 export default function HomeScreen() {
     const { data: products, isLoading, isError } = useGetProductsQuery();
@@ -25,7 +26,7 @@ export default function HomeScreen() {
 
     return (
         <>
-            {isLoading ? (<Loader/>) : isError ? (<div>{isError?.data?.message || isError.error}</div>) : ( // ? for undefined
+            {isLoading ? (<Loader/>) : isError ? (<Message variant={'danger'}>{isError?.data?.message || isError.error}</Message>) : ( // ? for undefined
                 <>
                 <div className={'flex-column align-items-center px-4 gap-2'}>
                 <h1 className={'py-3 px-3'}>Latest Products</h1>
