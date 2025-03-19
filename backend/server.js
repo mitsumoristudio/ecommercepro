@@ -5,6 +5,7 @@ import cors from 'cors';
 import connectToDB from "./config/mongoosedb.js";
 import productRoutes from "./routes/productRoutes.js";
 import {errorHandler, notFound} from "./middleware/errorHandler.js";
+import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 
@@ -16,14 +17,18 @@ const PORT = process.env.PORT || 5001;
  connectToDB();
 
 app.use(cors());
+
+// Body parser Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 app.get(`/`, (req, res) => {
     res.send(`API is running...`)
 })
 
 app.use("/api/products", productRoutes);
+
+app.use("/api/users", userRoutes);
 
 // Error Handler
 app.use(notFound);
