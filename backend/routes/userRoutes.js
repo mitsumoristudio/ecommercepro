@@ -12,18 +12,20 @@ import {
     updateUser,
 } from "../controllers/userController.js";
 
+import {protectRoutes, admin} from "../middleware/authMiddleware.js";
+
 const router = express.Router();
 
 router.route("/").post(registerUser);
-router.route("/").get(getAllUsers);
+router.route("/").get(protectRoutes, admin, getAllUsers);
 router.post("/logout", logoutUser);
 router.post("/login", authUser);
-router.route("/profile").get(getUserProfile);
-router.route("/profile").put(updateUserProfile);
+router.route("/profile").get(protectRoutes, getUserProfile);
+router.route("/profile").put(protectRoutes, updateUserProfile);
 
-router.route("/:id").delete(deleteUser);
-router.route("/:id").get(getUserById);
-router.route("/:id").put(updateUser);
+router.route("/:id").delete(protectRoutes, admin, deleteUser);
+router.route("/:id").get(protectRoutes, admin, getUserById);
+router.route("/:id").put(protectRoutes, admin, updateUser);
 
 
 export default router;

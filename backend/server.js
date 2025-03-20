@@ -6,6 +6,7 @@ import connectToDB from "./config/mongoosedb.js";
 import productRoutes from "./routes/productRoutes.js";
 import {errorHandler, notFound} from "./middleware/errorHandler.js";
 import userRoutes from "./routes/userRoutes.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -21,6 +22,9 @@ app.use(cors());
 // Body parser Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Cookie Parser Middleware
+app.use(cookieParser());
 
 app.get(`/`, (req, res) => {
     res.send(`API is running...`)
