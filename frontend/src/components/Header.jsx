@@ -1,12 +1,34 @@
 
-import {Navbar, Nav, Container, Badge} from "react-bootstrap";
+import {Navbar, Nav, Container, Badge, NavDropdown} from "react-bootstrap";
 import {FaShoppingCart, FaUser} from "react-icons/fa";
 
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
+import {useLogoutMutation} from "../features/reduxslices/userApiSlice";
+import {logout} from "../features/reduxslices/authSlice";
+import {useNavigate} from "react-router-dom";
+import {resetCart} from "../features/reduxslices/cartSlice";
 
 export default function Header() {
     const {cartItems} = useSelector((state) => state.cartSlice); // coming from store.js when we called the reducer
     // can access anything from the state
+    const {userInfo} = useSelector((state) => state.auth);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const [logoutApiCall] = useLogoutMutation();
+
+    const logoutHandler = async () => {
+        try {
+            await logoutApiCall().unwrap()
+            dispatch(logout())
+            dispatch(resetCart())
+            navigate("/login")
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <header>
             <Navbar bg={"dark"} variant={"dark"} expand={'md'} collapseOnSelect={true}>
@@ -25,9 +47,19 @@ export default function Header() {
                                 )}
                             </Nav.Link>
 
-                            <Nav.Link href={"/login"}>
+                            {userInfo ? (
+                                <NavDropdown title={userInfo.name} id={`username`}>
+                                    <Nav.Link to={`/profile`}>
+                                        <NavDropdown.Item >Profile</NavDropdown.Item>
+                                    </Nav.Link>
+                                        <NavDropdown.Item onClick={logoutHandler}>
+                                            Logout
+                                        </NavDropdown.Item>
+                                </NavDropdown>
+                            ) : (<Nav.Link href={"/login"}>
                                 <FaUser /> Sign In
-                            </Nav.Link>
+                            </Nav.Link>)}
+
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
