@@ -21,7 +21,7 @@ export default function LoginScreen() {
     const redirect = sp.get("redirect") || "/";
 
     const [email, setEmail] = useState("");
-    const [password, setPasword] = useState("");
+    const [password, setPassword] = useState("");
 
     useEffect(() => {
         if (useInfo) {
@@ -61,7 +61,7 @@ export default function LoginScreen() {
                         type={"password"}
                         placeholder={"Enter Password"}
                         value={password}
-                        onChange={(e) => setPasword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                     ></FormControl>
                 </FormGroup>
 

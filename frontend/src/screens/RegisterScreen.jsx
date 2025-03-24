@@ -44,7 +44,6 @@ export default function RegisterScreen() {
                 toast.error(error?.data?.message || error.error)
             }
         }
-
     }
 
     return (
@@ -91,7 +90,6 @@ export default function RegisterScreen() {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     ></FormControl>
                 </FormGroup>
-
 
                 <Button type={`submit`} variant={`primary`} className={`mt-2`} disabled={isLoading}>
                     Sign In

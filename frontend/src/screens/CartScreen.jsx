@@ -8,6 +8,7 @@ import {addToCart, removeFromCart} from "../features/reduxslices/cartSlice";
 
 export default function CartScreen() {
     const cart = useSelector((state) => state.cartSlice)
+    const user = useSelector((state) => state.auth);
     const {cartItems} = cart;
 
     const addToCartHandler = async (product, qty) => {
@@ -16,10 +17,18 @@ export default function CartScreen() {
     const removeToCartHandler = async (id) => {
         dispatch(removeFromCart(id));
     }
-
     const checkoutHandler = () => {
-        navigate(`/login?redirect=/shipping`);
+        if (user) {
+            navigate("/shipping");
+        } else {
+            navigate("/login");
+        }
     }
+
+    // const checkoutHandler = () => {
+    //    navigate(`/login?redirect=/shipping`);
+    //
+    // }
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
