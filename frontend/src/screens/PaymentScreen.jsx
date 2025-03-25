@@ -4,7 +4,7 @@ import {Form, Button, Col, Row, FormGroup, FormLabel, FormCheck} from "react-boo
 import {FormContainer} from "../components/FormContainer";
 import CheckoutSteps from "../components/CheckoutSteps";
 import {useDispatch, useSelector} from "react-redux";
-import {savePaymentMethod} from "../features/reduxslices/cartSlice";
+import {savePaymentMethod} from "../features/slices/cartSlice";
 import {useNavigate} from "react-router-dom";
 
 export default function PaymentScreen() {
@@ -13,7 +13,7 @@ export default function PaymentScreen() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const cart = useSelector((state) => state.cartSlice);
+    const cart = useSelector((state) => state.cartslice);
     const {shippingAddress} = cart;
 
     const submitHandler = (e) => {

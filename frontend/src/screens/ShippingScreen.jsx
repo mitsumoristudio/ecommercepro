@@ -4,12 +4,12 @@ import {Form, Button, FormGroup, FormLabel, FormControl} from "react-bootstrap";
 import {FormContainer} from "../components/FormContainer";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import { saveShippingAddress} from "../features/reduxslices/cartSlice";
+import { saveShippingAddress} from "../features/slices/cartSlice";
 import CheckoutSteps from "../components/CheckoutSteps";
 
 
 export default function ShippingScreen() {
-    const cart = useSelector((state) => state.cartSlice);
+    const cart = useSelector((state) => state.cartslice);
     const {shippingAddress} = cart;
 
     const [address, setAddress] = useState(shippingAddress?.address || "");

@@ -5,8 +5,8 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import Loader from "../components/Loader";
 import {Form, Button, Row, Col, FormGroup, FormLabel, FormControl} from "react-bootstrap";
-import {useRegisterMutation} from "../features/reduxslices/userApiSlice";
-import {setCredentials} from "../features/reduxslices/authSlice";
+import {useRegisterMutation} from "../features/slices/userApiSlice";
+import {setCredentials} from "../features/slices/authSlice";
 import {FormContainer} from "../components/FormContainer";
 
 export default function RegisterScreen() {

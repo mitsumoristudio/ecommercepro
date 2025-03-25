@@ -7,6 +7,7 @@ import productRoutes from "./routes/productRoutes.js";
 import {errorHandler, notFound} from "./middleware/errorHandler.js";
 import userRoutes from "./routes/userRoutes.js";
 import cookieParser from "cookie-parser";
+import {orderRoutes} from "./routes/orderRoutes.js";
 
 dotenv.config();
 
@@ -34,8 +35,12 @@ app.use("/api/products", productRoutes);
 
 app.use("/api/users", userRoutes);
 
+app.use("/api/orders", orderRoutes);
+
 // Error Handler
 app.use(notFound);
 app.use(errorHandler);
+
+
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

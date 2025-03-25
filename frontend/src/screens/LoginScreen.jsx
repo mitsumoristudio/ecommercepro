@@ -6,8 +6,8 @@ import {FormContainer} from "../components/FormContainer";
 import Loader from "../components/Loader";
 import {toast} from "react-toastify";
 
-import {useLoginMutation} from "../features/reduxslices/userApiSlice";
-import {setCredentials} from "../features/reduxslices/authSlice";
+import {useLoginMutation} from "../features/slices/userApiSlice";
+import {setCredentials} from "../features/slices/authSlice";
 import {useDispatch, useSelector} from "react-redux";
 
 export default function LoginScreen() {

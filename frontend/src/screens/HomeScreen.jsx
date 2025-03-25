@@ -6,7 +6,7 @@
 import React from 'react';
 import {Row, Col} from 'react-bootstrap';
 import Product from '../components/Product';
-import {useGetProductsQuery} from "../features/reduxslices/productsApiSlice";
+import {useGetProductsQuery} from "../features/slices/productsApiSlice";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 

@@ -19,6 +19,9 @@ import "react-toastify/dist/ReactToastify.css"
 import ShippingScreen from "./screens/ShippingScreen";
 import PrivateRoute from "./components/PrivateRoute";
 import PaymentScreen from "./screens/PaymentScreen";
+import PlaceOrderScreen from "./screens/PlaceOrderScreen";
+import {AdminRoute} from "./components/AdminRoute";
+import OrderListScreen from "./screens/adminscreens/OrderListScreen";
 
 export default function App() {
   return (
@@ -33,13 +36,15 @@ export default function App() {
                   <Route path={"/product/:id"} element={<ProductScreen />} />
                   <Route path={"/cart"} element={<CartScreen />} />
 
-                  <Route path={""} element={<PrivateRoute/>}>
+                  <Route path={""} element={<PrivateRoute />}>
                       <Route path={"/shipping"} element={<ShippingScreen />} />
+                      <Route path={"/payment"} element={<PaymentScreen />} />
+                      <Route path={"/placeorder"} element={<PlaceOrderScreen />} />
                   </Route>
 
-                  <Route path={""} element={<PrivateRoute />}>
-                      <Route path={"/payment"} element={<PaymentScreen />} />
-                  </Route>
+                 <Route path={""} element={<AdminRoute/>}>
+                     <Route path={"/admin/orderlist"} element={<OrderListScreen/>} />
+                 </Route>
 
                </Routes>
 

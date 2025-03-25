@@ -1,12 +1,12 @@
 import {Link, useParams} from "react-router-dom";
 import Ratings from "../components/Ratings";
 import {Row, Col, Image, ListGroup, Card, Button, ListGroupItem, FormControl} from "react-bootstrap";
-import {useGetProductDetailsByIdQuery} from "../features/reduxslices/productsApiSlice";
+import {useGetProductDetailsByIdQuery} from "../features/slices/productsApiSlice";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 
 import {useState} from "react";
-import {addToCart} from "../features/reduxslices/cartSlice";
+import {addToCart} from "../features/slices/cartSlice";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 

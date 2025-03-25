@@ -4,10 +4,10 @@ import {FaTrash} from 'react-icons/fa';
 import Message from "../components/Message";
 import {Row, Col, ListGroup, Image, Form, Button, Card, ListGroupItem, FormControl} from 'react-bootstrap';
 import {useDispatch, useSelector} from "react-redux";
-import {addToCart, removeFromCart} from "../features/reduxslices/cartSlice";
+import {addToCart, removeFromCart} from "../features/slices/cartSlice";
 
 export default function CartScreen() {
-    const cart = useSelector((state) => state.cartSlice)
+    const cart = useSelector((state) => state.cartslice)
     const user = useSelector((state) => state.auth);
     const {cartItems} = cart;
 
