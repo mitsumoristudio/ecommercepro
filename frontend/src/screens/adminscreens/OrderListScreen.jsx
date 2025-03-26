@@ -1,6 +1,5 @@
 
-import {LinkContainer} from "react-router-bootstrap";
-import {Table, Button} from "react-bootstrap";
+import {Table, Button, NavbarBrand} from "react-bootstrap";
 import {FaTimes} from "react-icons/fa";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
@@ -53,11 +52,11 @@ export default function OrderListScreen() {
                                 )}
                             </td>
                             <td>
-                                <LinkContainer to={`/order/${order._id}`}>
+                                <NavbarBrand to={`/order/${order._id}`}>
                                     <Button variant={"light"} className={"btn-sm"}>
                                         Details
                                     </Button>
-                                </LinkContainer>
+                                </NavbarBrand>
                             </td>
                         </tr>
                         )

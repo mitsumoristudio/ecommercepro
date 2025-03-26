@@ -7,7 +7,7 @@ import {useLogoutMutation} from "../features/slices/userApiSlice";
 import {logout} from "../features/slices/authSlice";
 import {useNavigate} from "react-router-dom";
 import {resetCart} from "../features/slices/cartSlice";
-import {LinkContainer} from "react-router-bootstrap";
+
 
 export default function Header() {
     const {cartItems} = useSelector((state) => state.cartslice); // coming from store.js when we called the reducer

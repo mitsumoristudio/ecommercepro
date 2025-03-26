@@ -1,42 +1,42 @@
 
-import {Nav } from 'react-bootstrap'
-import {LinkContainer} from 'react-router-bootstrap'
+import {Nav, NavbarBrand} from 'react-bootstrap'
+import {NavLink} from 'react-router-dom'
 
 export default function CheckoutSteps({step1, step2, step3, step4}) {
     return (
         <Nav className={'justify-content-center mb-4'}>
             <Nav.Item>
                 {step1 ? (
-                    <LinkContainer to={"/login"}>
+                    <NavbarBrand to={"/login"}>
                         <Nav.Link>Sign In</Nav.Link>
-                    </LinkContainer>
+                    </NavbarBrand>
                 ) : (
                     <Nav.Link disabled={false}> Sign In </Nav.Link>
                 )}
             </Nav.Item>
             <Nav.Item>
                 {step2 ? (
-                    <LinkContainer to={"/shipping"}>
+                    <NavbarBrand to={"/shipping"}>
                         <Nav.Link>Shipping</Nav.Link>
-                    </LinkContainer>
+                    </NavbarBrand>
                 ) : (
                     <Nav.Link disabled={false}> Shipping </Nav.Link>
                 )}
             </Nav.Item>
             <Nav.Item>
                 {step3 ? (
-                    <LinkContainer to={"/payment"}>
+                    <NavbarBrand to={"/payment"}>
                         <Nav.Link>Payment</Nav.Link>
-                    </LinkContainer>
+                    </NavbarBrand>
                 ) : (
                     <Nav.Link disabled={false}> Payment </Nav.Link>
                 )}
             </Nav.Item>
             <Nav.Item>
                 {step4 ? (
-                    <LinkContainer to={"/placeorder"}>
+                    <NavbarBrand to={"/placeorder"}>
                         <Nav.Link>Place Order</Nav.Link>
-                    </LinkContainer>
+                    </NavbarBrand>
                 ) : (
                     <Nav.Link disabled={false}> Place Order </Nav.Link>
                 )}

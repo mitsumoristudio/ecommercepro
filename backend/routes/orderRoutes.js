@@ -6,8 +6,8 @@ import {admin, protectRoutes} from "../middleware/authMiddleware.js";
 export const orderRoutes = express.Router();
 
 orderRoutes.route("/").get(protectRoutes, admin, getOrders);
-//orderRoutes.route("/").post(protectRoutes, addOrderItems)
-orderRoutes.route("/").post(protectRoutes, protectAddOrderItems);
+orderRoutes.route("/").post(protectRoutes, addOrderItems)
+//orderRoutes.route("/").post(protectRoutes, protectAddOrderItems);
 
 
 orderRoutes.route("/myOrders").get(protectRoutes, getMyOrders);

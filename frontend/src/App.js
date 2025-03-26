@@ -22,6 +22,7 @@ import PaymentScreen from "./screens/PaymentScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import {AdminRoute} from "./components/AdminRoute";
 import OrderListScreen from "./screens/adminscreens/OrderListScreen";
+import ProductListScreen from "./screens/adminscreens/ProductListScreen";
 
 export default function App() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
 
                  <Route path={""} element={<AdminRoute/>}>
                      <Route path={"/admin/orderlist"} element={<OrderListScreen/>} />
+                     <Route path={"/admin/productlist"} element={<ProductListScreen />} />
                  </Route>
 
                </Routes>
