@@ -29,12 +29,12 @@ export const addOrderItems = asyncHandler(async (req, res) => {
                 _id: undefined,
             })),
             user: req.user._id,
-            shippingAddress,
-            paymentMethod,
-            itemsPrice,
-            taxPrice,
-            shippingPrice,
-            totalPrice,
+            shippingAddress: shippingAddress,
+            paymentMethod: paymentMethod,
+            itemsPrice: itemsPrice,
+            taxPrice: taxPrice,
+            shippingPrice: shippingPrice,
+            totalPrice: totalPrice,
         });
 
         const createdOrder = await order.save();
@@ -65,7 +65,7 @@ export const protectAddOrderItems = asyncHandler(async (req, res) => {
             }
         });
         // Calculate Prices
-        const {itemPrice, taxPrice, shippingPrice, totalPrice} =
+        const {itemsPrice, taxPrice, shippingPrice, totalPrice} =
         calcPrices(dbOrderItems);
 
         const order = new OrderModel({

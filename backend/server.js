@@ -1,7 +1,7 @@
 
 import express from 'express';
 import dotenv from 'dotenv';
-import cors from 'cors';
+//import cors from 'cors';
 import connectToDB from "./config/mongoosedb.js";
 import productRoutes from "./routes/productRoutes.js";
 import {errorHandler, notFound} from "./middleware/errorHandler.js";
@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 5001;
 // TODO Connect to MongooseDB
  connectToDB();
 
-app.use(cors());
+// app.use(cors());
 
 // Body parser Middleware
 app.use(express.json());
