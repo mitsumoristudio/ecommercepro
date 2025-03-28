@@ -2,7 +2,7 @@
 import express from "express";
 import ProductModel from "../modals/ProductModels.js";
 import asyncHandler from "../middleware/asyncHandler.js";
-import {getProductById, getAllProducts, createProduct} from "../controllers/productController.js";
+import {getProductById, getAllProducts, createProduct, updateProduct} from "../controllers/productController.js";
 import {protectRoutes, admin} from "../middleware/authMiddleware.js";
 
 // import mockproducts from "../mockdata/mockproducts.js"; // for seeding data
@@ -10,9 +10,10 @@ import {protectRoutes, admin} from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 
-router.route("/").get(getAllProducts).post(protectRoutes, admin, createProduct);
-router.get("/:id", getProductById)
-
+router.route("/").get(getAllProducts);
+router.route("/").post(protectRoutes, admin, createProduct);
+router.get("/:id", getProductById);
+router.route("/:id").put(protectRoutes, admin, updateProduct);
 
 // TODO Get All Products w/out controller
 // Get All Products

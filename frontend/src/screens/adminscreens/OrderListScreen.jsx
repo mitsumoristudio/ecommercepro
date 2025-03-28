@@ -4,32 +4,33 @@ import {FaTimes} from "react-icons/fa";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import {useGetOrdersQuery} from "../../features/slices/orderApiSlice";
+import {Link} from "react-router-dom";
 
 export default function OrderListScreen() {
-    const {data: orders, isLoading, isError} = useGetOrdersQuery();
+    const {data: orders, isLoading, error} = useGetOrdersQuery();
 
     return (
-        <>
-        <h2>Orders</h2>
+        <div className={'mt-2 p-3'}>
+            <h1>Orders</h1>
             {isLoading ? (
-                <Loader/>
-            ) : isError ? (
-                <Message variant={"danger"}>
-                    {isError?.data?.message || isError.error}
+                <Loader />
+            ) : error ? (
+                <Message variant='danger'>
+                    {error?.data?.message || error.error}
                 </Message>
             ) : (
-                <Table striped={true} bordered={true} hover={true} responsive={true} className={"table-sm"}>
-                    <thread>
-                        <tr>
-                            <th>ID</th>
-                            <th>USER</th>
-                            <th>DATE</th>
-                            <th>TOTAL</th>
-                            <th>PAID </th>
-                            <th>DELIVERED</th>
-                            <th></th>
-                        </tr>
-                    </thread>
+                <Table striped bordered hover responsive className='table-sm'>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>USER</th>
+                        <th>DATE</th>
+                        <th>TOTAL</th>
+                        <th>PAID</th>
+                        <th>DELIVERED</th>
+                        <th></th>
+                    </tr>
+                    </thead>
                     <tbody>
                     {orders.map((order) => (
                         <tr key={order._id}>
@@ -41,30 +42,31 @@ export default function OrderListScreen() {
                                 {order.isPaid ? (
                                     order.paidAt.substring(0, 10)
                                 ) : (
-                                    <FaTimes style={{ color: "red" }}/>
+                                    <FaTimes style={{ color: 'red' }} />
                                 )}
                             </td>
                             <td>
                                 {order.isDelivered ? (
                                     order.deliveredAt.substring(0, 10)
                                 ) : (
-                                    <FaTimes style={{ color: "red" }}/>
+                                    <FaTimes style={{ color: 'red' }} />
                                 )}
                             </td>
                             <td>
-                                <NavbarBrand to={`/order/${order._id}`}>
-                                    <Button variant={"light"} className={"btn-sm"}>
-                                        Details
-                                    </Button>
-                                </NavbarBrand>
+                                <Button
+                                    as={Link}
+                                    to={`/order/${order._id}`}
+                                    variant='light'
+                                    className='btn-sm'
+                                >
+                                    Details
+                                </Button>
                             </td>
                         </tr>
-                        )
-                        )}
+                    ))}
                     </tbody>
-
                 </Table>
             )}
-        </>
+        </div>
     )
 }
