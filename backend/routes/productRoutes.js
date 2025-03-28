@@ -2,7 +2,13 @@
 import express from "express";
 import ProductModel from "../modals/ProductModels.js";
 import asyncHandler from "../middleware/asyncHandler.js";
-import {getProductById, getAllProducts, createProduct, updateProduct} from "../controllers/productController.js";
+import {
+    getProductById,
+    getAllProducts,
+    createProduct,
+    updateProduct,
+    deleteProduct
+} from "../controllers/productController.js";
 import {protectRoutes, admin} from "../middleware/authMiddleware.js";
 
 // import mockproducts from "../mockdata/mockproducts.js"; // for seeding data
@@ -12,8 +18,9 @@ const router = express.Router();
 
 router.route("/").get(getAllProducts);
 router.route("/").post(protectRoutes, admin, createProduct);
-router.get("/:id", getProductById);
+router.route("/:id").get(getProductById)
 router.route("/:id").put(protectRoutes, admin, updateProduct);
+router.route("/:id").delete(protectRoutes, admin, deleteProduct);
 
 // TODO Get All Products w/out controller
 // Get All Products

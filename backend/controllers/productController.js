@@ -1,6 +1,7 @@
 
 import ProductModel from "../modals/ProductModels.js";
 import asyncHandler from "../middleware/asyncHandler.js";
+import mongoose from "mongoose";
 
 // @desc Fetch all products
 // @route GET /api/products
@@ -63,8 +64,25 @@ const updateProduct = asyncHandler(async (req, res) => {
 
     } else {
         res.status(404).json({message:"No Product was found"})
-    }
 
+    }
 })
 
-export {createProduct, getAllProducts, getProductById, updateProduct}
+// @desc    Delete a product
+// @route   DELETE /api/products/:id
+// @access  Private/Admin
+const deleteProduct = asyncHandler(async (req, res) => {
+    const product = ProductModel.findById(req.params.id);
+
+    if (product) {
+        await ProductModel.deleteOne(product);
+
+       // await Product.deleteOne({ _id: product._id });
+        res.json({ message: 'Product removed' });
+    } else {
+        res.status(404).json({message:"No Product was found"})
+    }
+})
+
+
+export {createProduct, getAllProducts, getProductById, updateProduct, deleteProduct};

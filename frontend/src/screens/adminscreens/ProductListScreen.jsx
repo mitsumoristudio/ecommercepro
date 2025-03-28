@@ -4,14 +4,16 @@ import {Table, Button, Row, Col, NavbarBrand} from "react-bootstrap";
 import {FaTimes, FaEdit, FaTrash} from "react-icons/fa";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
-import {useGetProductsQuery, useCreateProductMutation} from "../../features/slices/productsApiSlice";
+import {useGetProductsQuery, useCreateProductMutation, useDeleteProductMutation,} from "../../features/slices/productsApiSlice";
 import {toast} from "react-toastify";
 
 
 export default function ProductListScreen() {
-    const {data: products, isLoading, isError,} = useGetProductsQuery();
+    const {data: products, isLoading, isError, refetch} = useGetProductsQuery();
 
     const [createProduct, {isLoading: loadingCreate}] = useCreateProductMutation();
+
+    const [deleteProduct, {isLoading: loadingDelete}] = useDeleteProductMutation();
 
     const createProductHandler = async () => {
         if (window.confirm('Are you sure you want to create a new product?')) {
@@ -24,8 +26,15 @@ export default function ProductListScreen() {
         }
     };
 
-   const deleteHandler = () => {
-       console.log(products);
+   const deleteHandler = async (id) => {
+       if (window.confirm('Are you sure you want to delete this product?')) {
+           try {
+               await deleteProduct(id);
+               refetch();
+           } catch (error) {
+               toast.error(error?.data?.message || error.message);
+           }
+       }
    }
 
     return (
@@ -43,6 +52,7 @@ export default function ProductListScreen() {
        </Row>
 
            {loadingCreate && <Loader />}
+           {loadingDelete && <Loader />}
            {isLoading ? <Loader /> : isError ? <Message variant={"danger"}>
                {isError?.data?.message}
            </Message> : (

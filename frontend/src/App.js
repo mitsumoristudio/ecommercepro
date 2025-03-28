@@ -24,6 +24,7 @@ import {AdminRoute} from "./components/AdminRoute";
 import OrderListScreen from "./screens/adminscreens/OrderListScreen";
 import ProductListScreen from "./screens/adminscreens/ProductListScreen";
 import OrderScreen from "./screens/OrderScreen";
+import ProductEditScreen from "./screens/adminscreens/ProductEditScreen";
 
 export default function App() {
   return (
@@ -48,6 +49,8 @@ export default function App() {
                  <Route path={""} element={<AdminRoute/>}>
                      <Route path={"/admin/orderlist"} element={<OrderListScreen/>} />
                      <Route path={"/admin/productlist"} element={<ProductListScreen />} />
+                     <Route path={"admin/product/:id/edit"} element={<ProductEditScreen />} />
+
                  </Route>
 
                </Routes>
