@@ -50,9 +50,9 @@ export default function Header() {
 
                             {userInfo ? (
                                 <NavDropdown title={userInfo.name} id={`username`}>
-                                    <Nav.Link to={`/profile`}>
-                                        <NavDropdown.Item >Profile</NavDropdown.Item>
-                                    </Nav.Link>
+                                    <NavDropdown.Item href={"/admin/profile"}>
+                                        Profile
+                                    </NavDropdown.Item>
                                         <NavDropdown.Item onClick={logoutHandler}>
                                             Logout
                                         </NavDropdown.Item>

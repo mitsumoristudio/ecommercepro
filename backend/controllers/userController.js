@@ -137,7 +137,9 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
 // @route   GET /api/users
 // @access  Private/Admin
 export const getAllUsers = asyncHandler(async (req, res) => {
-    res.send("get all users");
+    const users = await UserModel.find({});
+    res.status(200).json(users);
+   // res.send("get all users");
 })
 
 // @desc    Delete user
@@ -151,7 +153,15 @@ export const deleteUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/:id
 // @access  Private/Admin
 export const getUserById = asyncHandler(async (req, res) => {
-    res.send(`get user with id ${req.params.id}`)
+    const user = await UserModel.findById(req.params.id).select("-password");
+
+    if (user) {
+        res.status(200).json(user);
+    } else {
+        res.status(404);
+        throw new Error('User not found');
+    }
+   // res.send(`get user with id ${req.params.id}`)
 })
 
 // @desc    Update user
