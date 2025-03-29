@@ -1,5 +1,5 @@
 
-import {Table, Button, NavbarBrand} from "react-bootstrap";
+import {Table, Button} from "react-bootstrap";
 import {FaTimes} from "react-icons/fa";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
@@ -19,7 +19,7 @@ export default function OrderListScreen() {
                     {error?.data?.message || error.error}
                 </Message>
             ) : (
-                <Table striped bordered hover responsive className='table-sm'>
+                <Table striped={true} hover={true} responsive={true} className='table-sm'>
                     <thead>
                     <tr>
                         <th>ID</th>
