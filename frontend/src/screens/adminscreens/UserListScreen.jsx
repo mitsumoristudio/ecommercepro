@@ -2,16 +2,25 @@ import {Table, Button } from "react-bootstrap";
 import {FaTrash, FaTimes, FaEdit, FaCheck} from "react-icons/fa";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
-import {useGetUsersQuery} from "../../features/slices/userApiSlice";
+import {useGetUsersQuery, useDeleteUserMutation} from "../../features/slices/userApiSlice";
 import {Link, NavLink} from "react-router-dom";
-import {FaC} from "react-icons/fa6";
-
+import {toast} from "react-toastify";
 
 export default function UserListScreen() {
     const {data: users, isLoading, error, refetch} = useGetUsersQuery();
 
-    const deleteHandler = (id) => {
-        console.log("delete");
+    const [deleteUser, {isLoading: loadingDelete}] = useDeleteUserMutation();
+
+    const deleteHandler = async (userid) => {
+        if (window.confirm("Are you sure you want to delete this user?")) {
+            try {
+                await deleteUser(userid);
+                toast.success("User deleted successfully.");
+                refetch();
+            } catch (err) {
+                toast.error(err?.data?.message || err.error);
+            }
+        }
     }
 
     return (
@@ -54,7 +63,7 @@ export default function UserListScreen() {
                                 )}
                             </td>
                             <td>
-                                <NavLink to={`admin/user/${user._id}/edit`}>
+                                <NavLink to={`/admin/user/${user._id}/edit`}>
                                     <Button variant={"light"} className={"btn-sm mx-2"}>
                                         <FaEdit/>
                                     </Button>

@@ -166,7 +166,7 @@ export const deleteUser = asyncHandler(async (req, res) => {
 // @desc    Get user by ID
 // @route   GET /api/users/:id
 // @access  Private/Admin
-export const getUserById = asyncHandler(async (req, res) => {
+export const getUserDetails = asyncHandler(async (req, res) => {
     const user = await UserModel.findById(req.params.id).select("-password");
 
     if (user) {

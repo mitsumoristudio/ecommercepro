@@ -7,7 +7,8 @@ import {
     getAllProducts,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    createProductReview,
 } from "../controllers/productController.js";
 import {protectRoutes, admin} from "../middleware/authMiddleware.js";
 
@@ -21,6 +22,7 @@ router.route("/").post(protectRoutes, admin, createProduct);
 router.route("/:id").get(getProductById)
 router.route("/:id").put(protectRoutes, admin, updateProduct);
 router.route("/:id").delete(protectRoutes, admin, deleteProduct);
+router.route("/:id/reviews").post(protectRoutes, createProductReview);
 
 // TODO Get All Products w/out controller
 // Get All Products
