@@ -1,14 +1,28 @@
 import {Link, useParams} from "react-router-dom";
 import Ratings from "../components/Ratings";
-import {Row, Col, Image, ListGroup, Card, Button, ListGroupItem, FormControl} from "react-bootstrap";
+import {
+    Row,
+    Col,
+    Image,
+    ListGroup,
+    Card,
+    Button,
+    ListGroupItem,
+    FormControl,
+    Form,
+    FormGroup,
+    FormLabel
+} from "react-bootstrap";
 import {useGetProductDetailsByIdQuery} from "../features/slices/productsApiSlice";
+import {useCreateReviewMutation} from "../features/slices/productsApiSlice";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 
 import {useState} from "react";
 import {addToCart} from "../features/slices/cartSlice";
 import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {toast} from "react-toastify";
 
 
 // TODO Before adding Redux reducers
@@ -19,7 +33,14 @@ import {useDispatch} from "react-redux";
 
 export default function ProductScreen() {
     const {id: productId} = useParams();
-    const {data: product, isLoading, error} = useGetProductDetailsByIdQuery(productId);
+    const {data: product, isLoading, error, refetch} = useGetProductDetailsByIdQuery(productId);
+    const {userInfo} = useSelector(((state) => state.auth))
+
+    const [createReview, {isLoading: loadingProductReview, }] = useCreateReviewMutation();
+
+    const [rating, setRating] = useState(0);
+    const [comment, setComment] = useState("");
+
 
     const [qty, setQty] = useState(1);
 
@@ -30,6 +51,25 @@ export default function ProductScreen() {
     const addToCartHandler = () => {
         dispatch(addToCart({...product, qty}))
         navigate("/cart")
+    }
+
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        try {
+            await createReview({
+                productId: productId,
+                rating: rating,
+                comment: comment,
+
+            }).unwrap();
+            refetch();
+            toast.success("Review was successfully created!");
+
+            setRating(0);
+            setComment("");
+        } catch (err) {
+            toast.error("Error creating review");
+        }
     }
 
     // TODO Before adding Redux reducers
@@ -47,13 +87,15 @@ export default function ProductScreen() {
   //   }, [productId]);
 
     return (
-        <>
+        <div className={`mt-2 p-2 px-2`}>
         <Link to={'/'} className={'btn btn-light my-3'}>
             Go Back
         </Link>
             {isLoading ? (<Loader/>) : error ? (
                 <Message variant={'danger'}>{error?.data?.message || error.error }</Message>
-            ) : (<Row>
+            ) : (
+                <>
+                <Row>
                 <Col md={5}>
                     <Image src={product.image} alt={product.name} fluid={true} />
                 </Col>
@@ -124,7 +166,75 @@ export default function ProductScreen() {
                         </ListGroup>
                     </Card>
                 </Col>
-            </Row>)}
-        </>
+            </Row>
+                    <Row className={"review"}>
+                        <Col md={6}>
+                            <h2>Reviews</h2>
+                            {product.review.length === 0 && <Message >No Reviews</Message>}
+                            <ListGroup variant={"flush"}>
+                                {product.review.map(review => (
+                                    <ListGroupItem key={review._id}>
+                                        <strong>{review.name}</strong>
+                                        <Ratings value={review.rating}/>
+                                        <p>{review.createdAt.substring(0,10)}</p>
+                                        <p>{review.comment}</p>
+                                    </ListGroupItem>
+                                ))}
+
+                                <ListGroupItem>
+                                    <h2>Write a Customer Review</h2>
+                                    {loadingProductReview && <Loader/>}
+
+                                    {userInfo ? (
+                                        <Form onSubmit={submitHandler}>
+                                            <FormGroup
+                                            controlId={"rating"}
+                                            className={"my-3 p-2"}>
+                                                <FormLabel>Rating</FormLabel>
+                                                <FormControl
+                                                as={'select'}
+                                                value={rating}
+                                                onChange={(e)=> setRating(Number(e.target.value))}
+                                                >
+                                                    <option value={""}>Select...</option>
+                                                    <option value={"1"}>1 - Poor </option>
+                                                    <option value={"2"}>2 - Fair </option>
+                                                    <option value={"3"}>3 - Average </option>
+                                                    <option value={"4"}>4 - Very Good </option>
+                                                    <option value={"5"}>5 - Excellent </option>
+
+                                                </FormControl>
+                                            </FormGroup>
+                                            <FormGroup controlId={"comment"} className={"my-2"}>
+                                                <FormLabel >Comment</FormLabel>
+                                                <FormControl
+                                                as={'textarea'}
+                                                row = "3"
+                                                value={comment}
+                                                onChange={(e)=> setComment(e.target.value)}
+                                                ></FormControl>
+                                                <Button
+                                                type={"submit"}
+                                                variant={"primary"}
+                                                disabled={loadingProductReview}>
+                                                    Submit
+                                                </Button>
+                                            </FormGroup>
+                                        </Form>
+                                    ) : (
+                                        <Message variant={"flush"}>
+                                            Please <Link to={"/login"}> SIGN IN </Link>
+                                             to write a review {" "}
+                                        </Message>
+                                    )}
+
+                                </ListGroupItem>
+
+                            </ListGroup>
+                        </Col>
+                    </Row>
+                </>
+            )}
+        </div>
     )
 }

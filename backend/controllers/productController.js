@@ -89,10 +89,10 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // @access  Private
 const createProductReview = asyncHandler(async (req, res) => {
     const {rating, comment} = req.body;
-    const product = await ProductModel.findById({ _id: product._id});
+    const product = await ProductModel.findById(req.params.id)
 
     if (product) {
-        const alreadyReviews = product.reviews.find(
+        const alreadyReviews = product.review.find(
             (review) => review.user.toString() === req.user._id.toString()
         );
 
@@ -107,22 +107,21 @@ const createProductReview = asyncHandler(async (req, res) => {
             user: req.user._id,
         };
 
-        product.reviews.push(updatedReview);
+        product.review.push(updatedReview);
 
-        product.numReviews = product.reviews.length;
+        product.numReviews = product.review.length;
 
         product.rating =
-            product.reviews.reduce((acc, review) => acc + review.rating, 0) /
-            product.reviews.length;
+            product.review.reduce((acc, review) => acc + review.rating, 0) /
+            product.review.length;
 
         await product.save();
+
         res.status(201).json({message:"Product reviewed added"})
     } else {
         res.status(404)
         throw new Error('Resource was not found')
     }
-
-
 })
 
 
