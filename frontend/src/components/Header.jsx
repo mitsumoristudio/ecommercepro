@@ -7,6 +7,7 @@ import {useLogoutMutation} from "../features/slices/userApiSlice";
 import {logout} from "../features/slices/authSlice";
 import {useNavigate} from "react-router-dom";
 import {resetCart} from "../features/slices/cartSlice";
+import SearchBox from "./SearchBox";
 
 
 export default function Header() {
@@ -38,6 +39,8 @@ export default function Header() {
                     <Navbar.Toggle aria-controls={"basic-navbar-nav"} />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className={"ms-auto"} >
+
+                            <SearchBox />
 
                             <Nav.Link href="/cart">
                                 <FaShoppingCart size={22} />

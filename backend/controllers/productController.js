@@ -7,8 +7,19 @@ import mongoose from "mongoose";
 // @route GET /api/products
 // @access Public
  const getAllProducts = asyncHandler(async (req, res) => {
-    const products = await ProductModel.find({})
-    res.json(products);
+
+     const pageSize = 5;
+     const page = Number(req.query.pageNumber) || 1;
+
+
+     const keyword = req.query.keyword ? { name : {$regex: req.query.keyword, $options: "i" } } : { };
+     const countpage = await ProductModel.countDocuments({...keyword});
+
+    const products = await ProductModel.find({...keyword})
+        .limit(pageSize)
+        .skip(pageSize * (page - 1));
+    res.json({products, page, pages: Math.ceil(countpage/pageSize)})
+   // res.json(products);
 })
 
 // @desc Get a SingleProduct by ID
@@ -124,5 +135,13 @@ const createProductReview = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc Get top rated products
+// @route GET /api/products/top
+// @access Public
+const getTopProducts = asyncHandler(async (req, res) => {
+    const products = await ProductModel.find({}).sort({ rating: -1}).limit(3);
+    res.status(200).json(products);
+});
 
-export {createProduct, getAllProducts, getProductById, updateProduct, deleteProduct, createProductReview};
+
+export {createProduct, getAllProducts, getProductById, updateProduct, deleteProduct, createProductReview, getTopProducts};

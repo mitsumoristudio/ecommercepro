@@ -36,7 +36,10 @@ export default function App() {
               <ToastContainer />
       <Header />
               <Routes >
-                  <Route path="/" element={<HomeScreen />} />
+                  <Route path="/" index={true} element={<HomeScreen />} />
+                  <Route path={"/search/:keyword"} element={<HomeScreen />} />
+                  <Route path={"/page/:pageNumber"} element={<HomeScreen />} />
+                  <Route path={"/search/keyword/page/:pageNumber"} element={<HomeScreen/>} />
                   <Route path={"/register"} element={<RegisterScreen />} />
                   <Route path={"/login"} element={<LoginScreen />} ></Route>
                   <Route path={"/product/:id"} element={<ProductScreen />} />
