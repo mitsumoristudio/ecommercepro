@@ -4,7 +4,7 @@ import ProductModel from "../modals/ProductModels.js";
 import asyncHandler from "../middleware/asyncHandler.js";
 import {
     getProductById,
-    getAllProducts,
+    getProducts,
     createProduct,
     updateProduct,
     deleteProduct,
@@ -18,7 +18,7 @@ import {protectRoutes, admin} from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 
-router.route("/").get(getAllProducts);
+router.route("/").get(getProducts);
 router.route("/top").get(getTopProducts);
 router.route("/").post(protectRoutes, admin, createProduct);
 router.route("/:id").get(getProductById)

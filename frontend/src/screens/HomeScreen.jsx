@@ -13,6 +13,7 @@ import {useParams} from "react-router-dom";
 import Paginate from "../components/Paginate";
 import {Link} from "react-router-dom";
 import ProductCarousel from "../components/ProductCarousel";
+import Meta from "../components/Meta";
 
 export default function HomeScreen() {
  //   const { data: products, isLoading, isError } = useGetProductsQuery();
@@ -44,6 +45,9 @@ const {data, isLoading, isError } = useGetProductsQuery({keyword, pageNumber});
             {isLoading ? (<Loader/>) : isError ? (<Message variant={'danger'}>{isError?.data?.message || isError.error}</Message>) : ( // ? for undefined
                 <>
                 <div className={'flex-column align-items-center px-4 gap-2'}>
+
+                    <Meta title={"Welcome to eCommerce"} />
+
                 <h1 className={'py-3 px-3'}>Latest Products</h1>
                 <Row>
                     {data.products.map(product => {

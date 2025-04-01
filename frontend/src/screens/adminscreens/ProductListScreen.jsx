@@ -11,6 +11,8 @@ import {toast} from "react-toastify";
 export default function ProductListScreen() {
     const {data: products, isLoading, isError, refetch} = useGetProductsQuery();
 
+    console.log(products);
+
     const [createProduct, {isLoading: loadingCreate}] = useCreateProductMutation();
 
     const [deleteProduct, {isLoading: loadingDelete}] = useDeleteProductMutation();
@@ -38,7 +40,7 @@ export default function ProductListScreen() {
    }
 
     return (
-       <div className={"p-3 mt-2"}>
+       <div className={"p-3 mt-2 py-2"}>
        <Row className={"align-items-center px-2"}>
            <Col>
                <h1>Products</h1>
@@ -69,16 +71,16 @@ export default function ProductListScreen() {
                        </tr>
                        </thead>
                        <tbody>
-                       {products.map((product) => (
+                       {products.products.map((product) => (
                            <tr key={product._id}>
                                <td>{product._id}</td>
                                <td>{product.name}</td>
-                               <td>${product.price}</td>
+                               <td>{product.price}</td>
                                <td>{product.category}</td>
                                <td>{product.brand}</td>
                                <td>
                                    <NavbarBrand href={`/admin/product/${product._id}/edit`}>
-                                       <Button variant="light" className={"btn-sm mx-2"}>
+                                       <Button variant={"light"} className={"btn-sm mx-2"}>
                                            <FaEdit />
                                        </Button>
                                    </NavbarBrand>
@@ -87,6 +89,7 @@ export default function ProductListScreen() {
                                        <FaTrash style={{color: "white"}} />
                                    </Button>
                                </td>
+
                            </tr>
                        ))}
                        </tbody>

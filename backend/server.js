@@ -1,4 +1,4 @@
-
+import path from 'path';
 import express from 'express';
 import dotenv from 'dotenv';
 //import cors from 'cors';
@@ -8,6 +8,7 @@ import {errorHandler, notFound} from "./middleware/errorHandler.js";
 import userRoutes from "./routes/userRoutes.js";
 import cookieParser from "cookie-parser";
 import {orderRoutes} from "./routes/orderRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
 
 dotenv.config();
 
@@ -36,6 +37,12 @@ app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 
 app.use("/api/orders", orderRoutes);
+
+app.use("/api/upload", uploadRoutes);
+
+// set upload folder as static
+const __dirname = path.resolve(); // SET _dirname to current directory
+app.use(`/uploads`, express.static(path.join(__dirname, `../uploads`))); // changed the pathname because the root folder would not accept /uploads
 
 // Error Handler
 app.use(notFound);

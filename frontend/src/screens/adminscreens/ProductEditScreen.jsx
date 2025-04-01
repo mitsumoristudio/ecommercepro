@@ -6,7 +6,7 @@ import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import {FormContainer} from "../../components/FormContainer";
 import {toast} from "react-toastify";
-import {useUpdateProductMutation, useGetProductDetailsByIdQuery} from "../../features/slices/productsApiSlice";
+import {useUpdateProductMutation, useGetProductDetailsByIdQuery, useUploadProductImageMutation} from "../../features/slices/productsApiSlice";
 
 export default function ProductEditScreen() {
     const { id: productId } = useParams();
@@ -23,29 +23,23 @@ export default function ProductEditScreen() {
 
     const [updateProduct, {isLoading : loadingUpdate }] = useUpdateProductMutation();
 
+    const [ uploadProductImage, {isLoading: loadingUploadImage }] = useUploadProductImageMutation();
+
     const navigate = useNavigate();
 
-    // const onSubmitHandler = async (e) => {
-    //     e.preventDefault();
-    //     const productUpdate = {
-    //         _id: productId,
-    //         name: name,
-    //         price: price,
-    //         image: image,
-    //         brand: brand,
-    //         category: category,
-    //         countInStock: countInStock,
-    //         description: description,
-    //     }
-    //     const result = updateProduct(productUpdate);
-    //
-    //     if (result.error) {
-    //         toast.error(result.error.message);
-    //     } else {
-    //         toast.success("Product updated successfully");
-    //         navigate("/admin/productlist")
-    //     }
-    // };
+    const uploadImageHandler = async (e) => {
+        const formData = new FormData();
+        formData.append('image', e.target.files[0]);
+        try {
+            const res = await uploadProductImage(formData).unwrap();
+            toast.success("Image uploaded successfully.");
+
+            setImage(res.image)
+        } catch (error) {
+            toast.error(error?.data?.message || error.error)
+        }
+      //  console.log(e.target.files[0]);
+    }
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -120,6 +114,17 @@ export default function ProductEditScreen() {
                         </FormGroup>
 
                         {/* IMAGE INPUT PLACEHOLDER */}
+                        <FormGroup controlId={"image"} className={"my-2"}>
+                            <FormLabel column={true}>Image</FormLabel>
+                            <FormControl type={"text"} placeholder={"Enter image url"} value={image}
+                            onChange={(e) => setImage}>
+                            </FormControl>
+
+                            <FormControl type={"file"} label={"Choose File"}
+                            onChange={uploadImageHandler}></FormControl>
+
+
+                        </FormGroup>
 
                         <FormGroup className={"my-2"} controlId={"brand"}>
                             <FormLabel>Brand</FormLabel>

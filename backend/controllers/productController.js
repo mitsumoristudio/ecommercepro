@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 // @desc Fetch all products
 // @route GET /api/products
 // @access Public
- const getAllProducts = asyncHandler(async (req, res) => {
+ const getProducts = asyncHandler(async (req, res) => {
 
      const pageSize = 5;
      const page = Number(req.query.pageNumber) || 1;
@@ -71,8 +71,16 @@ const updateProduct = asyncHandler(async (req, res) => {
         product.countInStock = countInStock;
 
         const updateProduct = await product.save();
-        res.json(updateProduct);
-
+     //   res.json(updateProduct);
+        res.json({
+            name: updateProduct.name,
+            price: updateProduct.price,
+            description: updateProduct.description,
+            image: updateProduct.image,
+            brand: updateProduct.brand,
+            category: updateProduct.category,
+            countInStock: updateProduct.countInStock,
+        });
     } else {
         res.status(404).json({message:"No Product was found"})
 
@@ -144,4 +152,4 @@ const getTopProducts = asyncHandler(async (req, res) => {
 });
 
 
-export {createProduct, getAllProducts, getProductById, updateProduct, deleteProduct, createProductReview, getTopProducts};
+export {createProduct, getProducts, getProductById, updateProduct, deleteProduct, createProductReview, getTopProducts};

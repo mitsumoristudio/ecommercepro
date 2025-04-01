@@ -23,6 +23,7 @@ import {addToCart} from "../features/slices/cartSlice";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {toast} from "react-toastify";
+import Meta from "../components/Meta";
 
 
 // TODO Before adding Redux reducers
@@ -95,6 +96,8 @@ export default function ProductScreen() {
                 <Message variant={'danger'}>{error?.data?.message || error.error }</Message>
             ) : (
                 <>
+                <Meta title={product.name} />
+
                 <Row>
                 <Col md={5}>
                     <Image src={product.image} alt={product.name} fluid={true} />
