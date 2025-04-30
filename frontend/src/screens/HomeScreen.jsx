@@ -15,6 +15,7 @@ import {Link} from "react-router-dom";
 import ProductCarousel from "../components/ProductCarousel";
 import Meta from "../components/Meta";
 
+
 export default function HomeScreen() {
  //   const { data: products, isLoading, isError } = useGetProductsQuery();
 const { pageNumber, keyword } = useParams();
@@ -55,10 +56,13 @@ const {data, isLoading, isError } = useGetProductsQuery({keyword, pageNumber});
                             <Col key={product._id} sm={12} md={6} lg={5} xl={4}>
                                 <Product product={product}/>
                             </Col>
+
                         )
                     })}
                 </Row>
-                    <Paginate pages={data.pages} page = {data.page} keyword ={keyword}  />
+                    <Paginate pages={data.pages}
+                              page = {data.page}
+                              keyword ={keyword}  />
 
             </div>
                 </>

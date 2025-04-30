@@ -9,12 +9,11 @@ export const Meta = ({title, description, keywords}) => {
             <meta name={"keywords"} content={keywords} />
         </Helmet>
     )
-
-    Meta.defaultProps = {
-        title: "Welcome to Proshop",
-        description: "We sell sustainable products",
-        keywords: "Electronics, buy electronics"
-    };
 }
+Meta.defaultProps = {
+    title: "Welcome to Proshop",
+    description: "We sell sustainable products",
+    keywords: "Electronics, buy electronics"
+};
 
 export default Meta;

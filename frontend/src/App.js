@@ -1,9 +1,10 @@
 
 import './App.css';
-// import {Container} from "react-bootstrap";
+
 import Header from "./components/Header";
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import './assets/bootstrap.custom.css'
+
 import Footer from "./components/Footer";
 import './index.css'
 import HomeScreen from "./screens/HomeScreen";
@@ -13,6 +14,7 @@ import ProductScreen from "./screens/ProductScreen";
 import CartScreen from "./screens/CartScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
+
 
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"

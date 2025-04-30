@@ -1,6 +1,6 @@
 
 import {Pagination} from "react-bootstrap";
-import {NavLink} from "react-bootstrap";
+import { LinkContainer } from 'react-router-bootstrap'
 
 export default function Paginate({pages, page, isAdmin = false, keyword = "" }) {
     return (
@@ -8,13 +8,13 @@ export default function Paginate({pages, page, isAdmin = false, keyword = "" }) 
             <Pagination>
                 { [...Array(pages).keys()].map((x) => (
 
-                    <NavLink
+                    <LinkContainer
                     key={x + 1}
                     to={
                         !isAdmin ? keyword ? `/search/${keyword}/page${x + 1}` : `/page/${x+ 1}` : `/admin/productlist/${x + 1}`
                     }>
                         <Pagination.Item active={x + 1 === page}> {x + 1}</Pagination.Item>
-                    </NavLink>
+                    </LinkContainer>
                 ))}
             </Pagination>
         )

@@ -1,14 +1,18 @@
 
 import {Link, useParams} from 'react-router-dom';
-import {Row, Col, ListGroup, Image, Form, Button, Card, ListGroupItem} from "react-bootstrap";
+import {Row, Col, ListGroup, Image, Button, Card, ListGroupItem} from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import {useGetOrderDetailsQuery,
-        usePayOrderMutation,
-        useDeliverOrderMutation,
-} from "../features/slices/orderApiSlice";
 import {useSelector} from "react-redux";
 import {toast} from "react-toastify";
+import { PayPalButtons, usePayPalScriptReducer} from "@paypal/react-paypal-js"
+import {useEffect} from "react";
+
+import {useGetOrderDetailsQuery,
+    usePayOrderMutation,
+    useDeliverOrderMutation,
+    useGetPayPalClientIdQuery,
+} from "../features/slices/orderApiSlice";
 
 export default function OrderScreen() {
     const { id: orderId} = useParams();
@@ -16,6 +20,10 @@ export default function OrderScreen() {
     const { data: order, isLoading, error, refetch } = useGetOrderDetailsQuery(orderId);
 
     const [payOrder, {isLoading: loadingPay }] = usePayOrderMutation();
+
+    const [{ isPending }, paypalDispatch ] = usePayPalScriptReducer()
+
+    const { data: paypal, isLoading: loadingPaypal, error: errorPaypal} = useGetPayPalClientIdQuery();
 
     const [deliverOrder, {isLoading: loadingDeliver }] = useDeliverOrderMutation();
 
@@ -32,17 +40,75 @@ export default function OrderScreen() {
         }
     }
 
+    useEffect(() => {
+        if (!errorPaypal && !loadingPaypal && paypal.clientId) {
+            const loadPayPalScript = async () => {
+                paypalDispatch({
+                    type: "resetOptions",
+                    value: {
+                        "client-id": paypal.clientId,
+                        currency: "USD",
+                    }
+                });
+                paypalDispatch({
+                    type: "setPayPalScript",
+                    value: "pending"
+                });
+            }
+            if (order && !order.isPaid) {
+                if (!window.paypal) {
+                    loadPayPalScript();
+                }
+            }
+        }
+    }, [order, paypal, paypalDispatch, loadingPaypal, errorPaypal]);
+
+    function onApprove(data, actions) {
+        return actions.order.capture().then(async function (details) {
+            try {
+                await payOrder({orderId, details});
+                refetch();
+                toast.success("Payment was successfully approved.");
+            } catch (err) {
+                toast.error(err?.data?.message || err.message);
+            }
+        });
+    }
+    async function onApproveTest() {
+        await payOrder({orderId, details: {payer: { } }});
+        refetch();
+        toast.success("Payment was successfully approved.");
+    }
+    function onError(err) {
+        toast.error(err.message);
+    }
+    function createOrder(data, actions) {
+        return actions.order.create({
+            purchase_units: [
+                {
+                    amount: {
+                        value: order.totalPrice,
+                    }
+                }
+            ]
+        }).then((orderId) => {
+            return orderId;
+        });
+    }
+
     return (
         isLoading ? <Loader/> : error ? <Message variant={"danger"} />
             : (
                 <>
                     <h2 className={'text-secondary'}>Order: {order._id}</h2>
+
                     <Row>
                         <Col md={8}>
                             <ListGroup variant={"flush"}>
                                 <ListGroupItem>
                                     <h2>Shipping</h2>
                                     <p>
+
                                         <strong>Name: </strong>
                                         {order.user.name}
                                     </p>
@@ -127,6 +193,29 @@ export default function OrderScreen() {
 
                                     </ListGroupItem>
                                     {/* PAY ORDER PLACEHOLDER */}
+                                    {!order.isPaid && (
+                                        <ListGroupItem>
+                                            {loadingPay && <Loader/>}
+
+                                            {isPending ? <Loader /> : (
+                                                <div className={"py-2"}>
+                                                    <Button onClick={onApproveTest}
+                                                            style={{marginTop: '10px'}}
+                                                    >
+                                                        Test Pay Order
+                                                    </Button>
+                                                    <div className={'my-2'}>
+                                                        <PayPalButtons
+                                                            createOrder={createOrder}
+                                                            onApprove={onApprove}
+                                                            onError={onError}
+                                                            ></PayPalButtons>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </ListGroupItem>
+                                    )}
+
                                     {/* MARK AS DELIVERED PLACEHOLDER */}
                                     {loadingDeliver && <Loader/>}
 

@@ -49,6 +49,7 @@ export default function PaymentScreen() {
                         onChange={(e) => setPaymentMethod(e.target.value)}>
 
                         </FormCheck>
+
                     </Col>
                 </FormGroup>
 

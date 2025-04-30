@@ -40,9 +40,29 @@ app.use("/api/orders", orderRoutes);
 
 app.use("/api/upload", uploadRoutes);
 
+// payPal
+app.get("/api/config/paypal", (req, res) =>
+    res.send({clientId: process.env.PAYPAL_CLIENT_ID}))
+
 // set upload folder as static
 const __dirname = path.resolve(); // SET _dirname to current directory
 app.use(`/uploads`, express.static(path.join(__dirname, `../uploads`))); // changed the pathname because the root folder would not accept /uploads
+
+// Prepare for production
+if (process.env.NODE_ENV === "production") {
+    // set static folder
+    app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+    // Any route that is not api will be redirected to index.html
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+    })
+} else {
+    app.get("/", (req, res) => {
+        res.send("API is running...")
+    })
+}
+
 
 // Error Handler
 app.use(notFound);

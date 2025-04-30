@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import { saveShippingAddress} from "../features/slices/cartSlice";
 import CheckoutSteps from "../components/CheckoutSteps";
+import {PayPalButtons} from "@paypal/react-paypal-js";
 
 
 export default function ShippingScreen() {
@@ -35,6 +36,7 @@ export default function ShippingScreen() {
     return (
         <FormContainer>
             <CheckoutSteps step1={step1} />
+
 
             <h1 className={'mt-1'}>Shipping</h1>
             <Form onSubmit={submitHandler}>

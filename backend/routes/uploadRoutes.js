@@ -14,8 +14,20 @@ const storage = multer.diskStorage({
     }
 });
 
-function checkFileType(file, cb) {
-    const filetypes = /jpg|jpeg|png/;
+// function checkFileType(file, cb) {
+//     const filetypes = /jpg|jpeg|png/;
+//     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+//     const mimetype = filetypes.test(file.mimetype);
+//     if (extname && mimetype) {
+//         return cb(null, true)
+//     } else {
+//         cb("Image Only!");
+//     }
+// }
+
+function fileFilter(req, file, cb) {
+    const filetypes = /jpeg|png|webp/;
+
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = filetypes.test(file.mimetype);
     if (extname && mimetype) {
