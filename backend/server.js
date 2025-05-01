@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.get(`/`, (req, res) => {
-    res.send(`API is running...`)
+    res.send(`API is currently running...`)
 })
 
 app.use("/api/products", productRoutes);
@@ -59,7 +59,7 @@ if (process.env.NODE_ENV === "production") {
     })
 } else {
     app.get("/", (req, res) => {
-        res.send("API is running at lightening speed...")
+        res.send("API is running ...")
     })
 }
 
