@@ -9,6 +9,7 @@ import userRoutes from "./routes/userRoutes.js";
 import cookieParser from "cookie-parser";
 import {orderRoutes} from "./routes/orderRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
+import helmet from "helmet";
 
 dotenv.config();
 
@@ -27,6 +28,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Cookie Parser Middleware
 app.use(cookieParser());
+
+// Security Headers with Helmet
+app.use(helmet());
 
 // Prior to adding to production on Render
 // app.get(`/`, (req, res) => {
@@ -55,6 +59,7 @@ if (process.env.NODE_ENV  === "production") {
     app.use(express.static(path.join(__dirname, "/frontend/build")));
 
     // Any route that is not api will be redirected to index.html
+    // Handle client-side routing
     app.get('*', (req, res) =>
         res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
     );
@@ -63,7 +68,6 @@ if (process.env.NODE_ENV  === "production") {
         res.send("API is currently running ...")
     })
 }
-
 
 // Error Handler
 app.use(notFound);
