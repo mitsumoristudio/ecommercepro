@@ -50,7 +50,7 @@ const __dirname = path.resolve(); // SET _dirname to current directory
 app.use(`/uploads`, express.static(path.join(__dirname, `../uploads`))); // changed the pathname because the root folder would not accept /uploads
 
 // Prepare for production
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV  === "production") {
     // set static folder
     app.use(express.static(path.join(__dirname, "/frontend/build")));
 
