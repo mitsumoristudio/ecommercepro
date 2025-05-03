@@ -8,17 +8,16 @@ import mongoose from "mongoose";
 // @access Public
  const getProducts = asyncHandler(async (req, res) => {
 
-     const pageSize = 6;
+  //   const pageSize = 6;
      const page = Number(req.query.pageNumber) || 1;
-
 
      const keyword = req.query.keyword ? { name : {$regex: req.query.keyword, $options: "i" } } : { };
      const countpage = await ProductModel.countDocuments({...keyword});
 
     const products = await ProductModel.find({...keyword})
-        .limit(pageSize)
-        .skip(pageSize * (page - 1));
-    res.json({products, page, pages: Math.ceil(countpage/pageSize)})
+        .limit(process.env.PAGINATION_PAGE_SIZE)
+        .skip(process.env.PAGINATION_PAGE_SIZE * (page - 1));
+    res.json({products, page, pages: Math.ceil(countpage/process.env.PAGINATION_PAGE_SIZE)})
    // res.json(products);
 })
 
