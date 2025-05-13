@@ -91,7 +91,7 @@ export default function ProductEditScreen() {
 
                 {isLoading ? <Loader /> : error ? <Message variant={"danger"} >
                     {error}
-                </Message> : (
+                </Message> : loadingUploadImage ? <Loader /> : (
                     <Form className={"mt-2 p-2"} onSubmit={submitHandler}>
                         <FormGroup className={"mb-2"} controlId={"name"}>
                             <FormLabel>Name</FormLabel>

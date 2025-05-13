@@ -6,8 +6,9 @@ import multer from "multer";
 const router = express.Router();
 
 const storage = multer.diskStorage({
-    destination(req, file, cb) { // cb = callback
-        cb(null, "../uploads");
+    destination(req, file, cb) { // cb = callback (storage is on the server)
+        cb(null, "uploads/");
+       // cb(null, "../uploads");
     },
     filename(req, file, cb) {
         cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
@@ -25,8 +26,8 @@ const storage = multer.diskStorage({
 //     }
 // }
 
-function fileFilter(req, file, cb) {
-    const filetypes = /jpeg|png|webp/;
+function fileFilter(file, cb) {
+    const filetypes = /jpeg|png|jpg/;
 
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = filetypes.test(file.mimetype);
